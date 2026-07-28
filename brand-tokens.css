@@ -1,0 +1,16 @@
+/* VOLTO candidate campaign brand tokens
+   Employer colors are source-sampled approximations from the public LinkedIn logo and official web presence.
+   Candidate-original electric teal is used only for the Capability Transformer. */
+:root {
+  --volto-navy: #303267;
+  --volto-blue: #1487a4;
+  --volto-sky: #58bcd3;
+  --volto-ink: #10172b;
+  --volto-paper: #ffffff;
+  --volto-mist: #eef7f9;
+  --volto-line: #cddce3;
+  --campaign-electric: #17bca7;
+  --campaign-amber: #f0a23a;
+  --campaign-red: #c94a5a;
+  --shadow: 0 24px 70px rgba(16,23,43,.12);
+}
