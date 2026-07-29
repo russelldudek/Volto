@@ -11,7 +11,7 @@ The campaign uses a clearly typeset `VOLTO CONSULTING` identity above the fold, 
 ## Color provenance
 - `#303267` - source-sampled approximation of the public VOLTO dark navy.
 - `#1487A4` and `#58BCD3` - source-sampled approximations of the public blue/teal identity.
-- `#17BCA7` - candidate-original accent for the Capability Transformer operating metaphor.
+- Violet, electric blue, and teal within the Capability Transformer are candidate-original role-metaphor accents.
 - White, mist, and ink neutrals are candidate implementation colors.
 
 ## Typography
@@ -23,5 +23,5 @@ VOLTO's public identity uses clean technology-consulting geometry, high-contrast
 ## Asset package
 `assets/brand/README.md` records the logo constraint. No recreated or third-party logo is used.
 
-## Motion correction
-The superseded flat SVG coil was removed after direct visual review. The approved execution uses a dependency-free WebGL2 Capability phase-lock field: three noisy work signals pass five visible transformation facets and settle as coherent workflow evidence. The sequence is one-shot, supports deliberate replay, stops in a stable end state, and uses a lightweight semantic equivalent on touch and narrow-screen devices. This motion is candidate-original and is not presented as VOLTO's official motion language.
+## Approved motion and composition
+The superseded flat coil and the intermediate detached phase-field panel were removed after direct visual review. The approved hero is one integrated cinematic operating artifact: three glass input cards feed a sculpted WebGL2 transformation funnel; human authority remains visibly central; three governed outcomes emerge on the same causal plane; and the decision/evidence bar belongs to the same scene. The funnel is generated from readable GLSL mesh, wireframe, and particle programs, runs once, settles, supports deliberate replay, and changes palette with the selected work context. Touch and narrow-screen devices receive a designed semantic funnel instead of loading the desktop renderer. This motion and composition are candidate-original and are not presented as VOLTO's official motion language.
