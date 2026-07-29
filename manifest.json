@@ -2,7 +2,7 @@
   "campaign": "VOLTO Consulting - ChatGPT Power User Enablement Analyst",
   "candidate_vision": "https://russelldudek.github.io/Volto/",
   "job_posting": "supplied directly in chat on 2026-07-28; no public posting URL verified",
-  "status": "published to main; live Pages verification required",
+  "status": "published to main; corrected visual system; live Pages verification required",
   "files": [
     "index.html",
     "resume.html",
@@ -11,6 +11,7 @@
     "90-day-plan.html",
     "enablement-kit.html",
     "styles.css",
+    "experience.css",
     "brand-tokens.css",
     "app.js",
     "brand-intelligence.md",
@@ -21,6 +22,7 @@
     "docs/Russell-Dudek-VOLTO-Cover-Letter.pdf",
     "docs/VOLTO-Interview-Thesis-Brief.pdf",
     "docs/VOLTO-90-Day-Entry-Plan.pdf",
-    "docs/VOLTO-Power-User-Enablement-Kit.pdf"
+    "docs/VOLTO-Power-User-Enablement-Kit.pdf",
+    "qa/capability-transformer.contract.mjs"
   ]
 }
