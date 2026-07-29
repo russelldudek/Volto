@@ -17,6 +17,7 @@ Independent candidate materials by Russell Dudek for the ChatGPT Power User Enab
 - `research.md` - job and public-company research
 - `evidence-map.md` - verified cross-artifact evidence mapping
 - `manifest.json` - readable publication manifest
+- `qa/campaign-audit.md` - rendered, motion, responsive, interaction, content, document, and confidentiality QA receipt
 
 ## Deployment
 This dependency-free static site is intended for GitHub Pages from `main` and `/ (root)`. Keep the `docs/` and `assets/` paths unchanged so document downloads and brand provenance remain intact.

@@ -23,6 +23,7 @@
     "docs/VOLTO-Interview-Thesis-Brief.pdf",
     "docs/VOLTO-90-Day-Entry-Plan.pdf",
     "docs/VOLTO-Power-User-Enablement-Kit.pdf",
-    "qa/capability-transformer.contract.mjs"
+    "qa/capability-transformer.contract.mjs",
+    "qa/campaign-audit.md"
   ]
 }
