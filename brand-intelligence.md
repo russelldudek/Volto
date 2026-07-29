@@ -22,3 +22,6 @@ VOLTO's public identity uses clean technology-consulting geometry, high-contrast
 
 ## Asset package
 `assets/brand/README.md` records the logo constraint. No recreated or third-party logo is used.
+
+## Motion correction
+The superseded flat SVG coil was removed after direct visual review. The approved execution uses a dependency-free WebGL2 Capability phase-lock field: three noisy work signals pass five visible transformation facets and settle as coherent workflow evidence. The sequence is one-shot, supports deliberate replay, stops in a stable end state, and uses a lightweight semantic equivalent on touch and narrow-screen devices. This motion is candidate-original and is not presented as VOLTO's official motion language.
