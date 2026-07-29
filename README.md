@@ -19,13 +19,13 @@ Independent candidate materials by Russell Dudek for the ChatGPT Power User Enab
 - `manifest.json` - readable publication manifest
 
 ## Deployment
-This is a dependency-free static site intended for GitHub Pages from `main` and `/ (root)`. Keep the `docs/` and `assets/` paths unchanged so document downloads and brand provenance remain intact.
+This dependency-free static site is intended for GitHub Pages from `main` and `/ (root)`. Keep the `docs/` and `assets/` paths unchanged so document downloads and brand provenance remain intact.
 
-## Visual system
-Desktop uses a custom WebGL2 volumetric Capability Transformer: a shaded parametric funnel, controlled mesh, luminous rim and plinth, and one-shot signal routing from three work inputs to three governed outputs. The scene settles, supports deliberate replay, changes palette and business state atomically, and resolves immediately under reduced motion. Tablets and phones use a separately composed semantic equivalent instead of instantiating the desktop renderer.
+## Visual and motion system
+Desktop uses a custom WebGL2 Capability Transformer: a shaded parametric funnel, controlled mesh, luminous rim and plinth, three governed work inputs, and three measurable outputs. After the opening transformation resolves, quiet forward signal flow and a slower learning-return path continue because this role continuously absorbs new ChatGPT capability and returns reusable learning. Scenario changes restart the explanatory sequence while leaving the final request authoritative. Reduced motion renders a complete static state. Tablets and phones use a separately composed semantic equivalent and do not instantiate WebGL.
 
 ## Regression check
-Run `node qa/capability-transformer.contract.mjs` to verify the integrated hero structure, WebGL2 renderer, volumetric surface and mesh, one-shot settlement, scenario transaction, reset, reduced-motion behavior, narrow-screen composition, and publication manifest.
+Run `node qa/capability-transformer.contract.mjs`. The contract protects continuous post-intro motion, learning return, reduced motion, scenario transaction, reset, overlap-safe desktop/laptop geometry, narrow-screen composition, affirmative transferability, full-JD wording, confidentiality, and publication-manifest inclusion.
 
 ## Independence
 This is an independent candidate work product and is not affiliated with or endorsed by VOLTO Consulting.
