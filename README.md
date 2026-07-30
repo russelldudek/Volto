@@ -8,7 +8,7 @@ Independent candidate materials by Russell Dudek for the ChatGPT Power User Enab
 - `index.html` - candidate vision and Capability Transformer
 - `resume.html` - exactly two-page role-aligned resume
 - `cover-letter.html` - exactly one-page cover letter
-- `interview-brief.html` - interview thesis brief
+- `interview-brief.html` - role operating brief
 - `90-day-plan.html` - entry plan
 - `enablement-kit.html` - Power User Enablement Kit
 
@@ -23,12 +23,15 @@ Independent candidate materials by Russell Dudek for the ChatGPT Power User Enab
 This dependency-free static site is intended for GitHub Pages from `main` and `/ (root)`. Keep the `docs/` and `assets/` paths unchanged so document downloads and brand provenance remain intact.
 
 ## Visual and motion system
-Desktop uses a custom WebGL2 Capability Transformer built as one mathematical surface-of-revolution system. A circular intake lip, monotonic taper, defined throat, matched outlet cylinder, and concentric base share one centerline and coordinate system. The particle route uses the same radius profile, so capability signals remain inside the volume before exiting toward governed outcomes. Human authority is centered inside the transformation volume rather than positioned against an unrelated overlay.
+Desktop uses a custom WebGL2 Capability Transformer built as one mathematical surface-of-revolution system. A circular intake lip, monotonic taper, defined throat, matched outlet cylinder, and concentric base share one centerline and coordinate system. The particle route uses the same radius profile, so capability signals remain inside the volume before exiting toward governed outcomes. Human authority is centered inside the transformation volume.
 
-After the opening explanation resolves, quiet forward signal flow and a slower learning-return path continue because this role continuously absorbs new ChatGPT capability and returns reusable learning. Scenario changes restart the explanatory sequence while leaving the final request authoritative. Reduced motion renders a complete static state. Tablets and phones do not instantiate WebGL; they receive a separate symmetric semantic funnel with the same intake, authority, throat, outlet, and outcome relationship.
+After the opening explanation resolves, quiet forward signal flow and a slower learning-return path continue because this role continuously absorbs new ChatGPT capability and returns reusable learning. Scenario changes restart the explanatory sequence while leaving the final request authoritative. Reduced motion renders a complete static state. Tablets and phones receive a separate symmetric semantic funnel with the same intake, authority, throat, outlet, and outcome relationship.
+
+## Candidate-facing positioning
+The public campaign is strength-first. It presents verified fit, direct contribution, transferability, operating value, and future-facing work. Recruiter-style objection framing, working-session pitches, compensation commentary, and Russell's phone number are excluded from the public site and documents.
 
 ## Regression check
-The hero renderer is split into readable data, surface, geometry, runtime, and controller modules. Run `node qa/capability-transformer.contract.mjs`. The contract protects the shared funnel radius, monotonic taper, circular cross-section, throat-to-outlet continuity, shared-axis rim and base, continuous post-intro motion, learning return, reduced motion, scenario transaction, reset, overlap-safe desktop/laptop geometry, narrow-screen composition, affirmative transferability, full-JD wording, confidentiality, and publication-manifest inclusion.
+Run `node qa/capability-transformer.contract.mjs`. The contract protects geometry, continuous motion, reduced motion, atomic scenario state, responsive composition, positive candidate-facing positioning, absence of redundant controls, phone-number removal, evidence integrity, confidentiality, and publication-manifest inclusion.
 
 ## Independence
 This is an independent candidate work product and is not affiliated with or endorsed by VOLTO Consulting.
