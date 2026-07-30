@@ -26,6 +26,7 @@ assert.match(index, /Questions that expose the real enablement system/);
 assert.match(index, /THE REASONABLE QUESTION/);
 assert.match(index, /Workflow design &amp; automation/);
 assert.doesNotMatch(index, /transformer-svg|class="coil"|class="pulse"/);
+assert.doesNotMatch(index, /Replay transformation|Reset baseline|simulation-actions|id="replay"|id="resetScenario"/);
 
 assert.match(app, /getContext\('webgl2'/);
 assert.match(app, /class FunnelScene/);
@@ -46,7 +47,7 @@ assert.match(app, /document\.addEventListener\('visibilitychange'/);
 assert.match(app, /reduced\.matches/);
 assert.match(app, /function applyScenario\(key/);
 assert.match(app, /setAttribute\('aria-pressed'/);
-assert.match(app, /resetScenario/);
+assert.doesNotMatch(app, /getElementById\('replay'\)|getElementById\('resetScenario'\)|Replaying .* transformation/);
 
 const radius = (t) => 0.42 + 1.83 * Math.pow(Math.max(0, 1 - t), 1.35);
 assert.equal(radius(0), 2.25);
@@ -67,6 +68,7 @@ assert.match(css, /@media \(max-width: 680px\)/);
 assert.match(css, /@media \(max-width: 360px\)/);
 assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 assert.match(css, /\.experience-home #plan\s*\{[\s\S]*background:\s*#fff/);
+assert.doesNotMatch(css, /simulation-actions|#replay|#resetScenario/);
 
 for (const path of [
   'index.html',
@@ -84,4 +86,4 @@ for (const path of [
 }
 
 assert.doesNotMatch([index, app, css].join('\n'), /role[\s_-]*forge/i);
-console.log('Capability Transformer single-axis geometry contract passed.');
+console.log('Capability Transformer single-axis geometry and interaction contract passed.');
