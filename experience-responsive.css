@@ -202,7 +202,3 @@
 }
 .experience-home .scenario-tabs button:hover { transform: translateY(-1px); }
 .experience-home .scenario-tabs button[aria-pressed="true"] { box-shadow: 0 9px 24px rgba(48, 50, 103, 0.18); }
-.simulation-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
-.experience-home #replay,
-.experience-home #resetScenario { border-radius: 999px; margin: 0; }
-.experience-home #resetScenario.quiet { border-color: #b9ccd4; color: #536276; }
