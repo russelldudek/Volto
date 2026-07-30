@@ -36,8 +36,13 @@ The replacement uses one surface-of-revolution coordinate system:
 
 The source regression verifies the monotonic radius at 100 sample points and fails if arbitrary depth compression, detached desktop pseudo-shells, or throat/outlet radius drift returns.
 
+## Control simplification
+Direct user review identified the `Replay transformation` and `Reset baseline` buttons as nonessential control noise. Both controls were removed from the operating-model panel. Their JavaScript listeners and dedicated CSS were removed as well.
+
+The four scenario tabs are now the only controls in the model. Each selection already updates the complete state transaction and restarts the explanatory phase where WebGL is active, so separate replay and reset actions did not advance the argument. The regression contract now rejects their labels, IDs, listeners, and styles.
+
 ## Rendered visual QA
-Testing used Playwright with Chromium under Xvfb, ANGLE, and software SwiftShader WebGL2.
+Testing used Playwright with Chromium under Xvfb, ANGLE, and software SwiftShader WebGL2 for the geometry correction.
 
 | Viewport | Hero mode | Horizontal overflow | Tested semantic overlaps | Browser warnings/errors |
 |---|---|---:|---:|---:|
@@ -53,7 +58,7 @@ Explicit overlap checks returned zero area for:
 - center stage vs. output stack;
 - center stage vs. summary bar.
 
-The complete page was reviewed at desktop and mobile widths. The white 90-day section, objection treatment, executive questions, document navigation, and footer remain intact.
+The control simplification removes content from the operating-model panel and does not alter hero geometry, responsive breakpoints, document routes, or print surfaces.
 
 ## Motion QA
 - Actual WebGL2 initialization: passed at 1440 × 900 and 1280 × 800.
@@ -62,7 +67,7 @@ The complete page was reviewed at desktop and mobile widths. The white 90-day se
 - Changed-pixel ratio between post-intro frames 1.5 seconds apart: `0.043178682493101486` at desktop and `0.04607070561017929` at laptop.
 - Forward capability-to-work flow: passed.
 - Slower learning-return path: passed.
-- Replay: passed.
+- Scenario selection restarts the explanatory phase.
 - Visibility-aware pause and resume: passed by source contract.
 - Reduced motion: passed; frames remained byte-identical and the complete settled state remained visible.
 
@@ -70,15 +75,15 @@ The complete page was reviewed at desktop and mobile widths. The white 90-day se
 - Smart starting state: Operations.
 - Talent Operations atomic state change: passed.
 - Rapid Sales & Delivery → Support selection: final Support state authoritative.
-- Replay starts and returns to the resolved semantic state: passed.
-- Reset returns to Operations: passed.
+- Scenario tabs are the only visible controls in the operating-model panel.
+- Redundant replay/reset controls and their listeners: absent.
 - Keyboard/button semantics: preserved.
 - Scenario buttons expose `aria-pressed`: passed.
 - Live announcement region: passed.
 - Hero accessible name and description: passed.
 - Duplicate IDs: 0.
 - Horizontal overflow: 0 at every audited width.
-- Browser warnings, console errors, and page errors: 0.
+- Browser warnings, console errors, and page errors: 0 in the rendered geometry audit.
 
 ## Content and evidence QA
 The campaign explicitly covers:
@@ -94,7 +99,7 @@ The campaign explicitly covers:
 Evidence boundaries remain intact. The campaign does not claim named production custom-GPT deployments, formal ownership of a major ChatGPT workspace, invented ROI, or undisclosed VOLTO access.
 
 ## Documents and PDFs
-The hero-only correction does not alter document content, print CSS, or PDF binaries. The previously verified contracts remain:
+The control simplification does not alter document content, print CSS, or PDF binaries. The verified contracts remain:
 
 | PDF | Pages |
 |---|---:|
@@ -112,4 +117,4 @@ Application documents retain the candidate contact block and complete VOLTO cand
 - Public filenames and directories: passed.
 
 ## Final disposition
-All available source, mathematical geometry, rendered visual, motion, responsive, content, interaction, accessibility, document, evidence-integrity, and confidentiality gates pass. The campaign remains `blocked`, not `complete`, solely because the exact latest GitHub Pages deployment could not be independently verified from this environment.
+The redundant controls have been removed from markup, behavior, styling, and regression expectations. All available source, mathematical geometry, rendered visual, motion, responsive, content, interaction, accessibility, document, evidence-integrity, and confidentiality gates pass. The campaign remains `blocked`, not `complete`, solely because the exact latest GitHub Pages deployment could not be independently verified from this environment.
