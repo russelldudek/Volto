@@ -56,19 +56,6 @@ document.querySelectorAll('[data-scenario]').forEach((button) => {
   button.addEventListener('click', () => applyScenario(button.dataset.scenario));
 });
 
-document.getElementById('replay')?.addEventListener('click', () => {
-  const current = ++token;
-  scene?.replay();
-  announcement.textContent = `Replaying ${scenarios[selected].label.toLowerCase()} transformation.`;
-  setTimeout(() => {
-    if (current === token) {
-      announcement.textContent = `${scenarios[selected].heroVerdict}. Continuous learning flow remains active.`;
-    }
-  }, reduced.matches ? 0 : 3300);
-});
-
-document.getElementById('resetScenario')?.addEventListener('click', () => applyScenario('ops'));
-
 mobile.addEventListener?.('change', () => {
   ensureRenderer();
   applyScenario(selected, { announce: false, replay: Boolean(scene) });
