@@ -1,77 +1,92 @@
-const scenarios={
-  ops:{label:'OPERATIONS',title:'Convert expert handoffs into reusable standard work.',narrative:'Use structured context and human review to turn recurring operating knowledge into a dependable first draft, checklist, and escalation path.',ai:'Draft, structure, compare',authority:'Process owner approves',governance:'Approved sources; no confidential leakage',measure:'Cycle time, completeness, reuse',motion:'Demo → practice → office hours',verdict:'Standardize',heroVerdict:'Ready to standardize',heroScenario:'Operations knowledge handoff',colors:['#8b69ff','#49a8ff','#20dfc9']},
-  talent:{label:'TALENT OPERATIONS',title:'Turn role context into a consistent candidate assessment workflow.',narrative:'Help recruiting teams move from generic prompting to structured role context, evidence-based comparison, human judgment, and traceable decisions.',ai:'Synthesize, compare, prepare',authority:'Recruiter and hiring manager decide',governance:'No sensitive inference; evidence remains attributable',measure:'Intake speed, consistency, rework',motion:'Role clinic → template → calibration',verdict:'Pilot with controls',heroVerdict:'Pilot with controls',heroScenario:'Role-context assessment workflow',colors:['#697dff','#52b9ff','#32ddd5']},
-  delivery:{label:'SALES & DELIVERY',title:'Convert discovery into an actionable client-work brief.',narrative:'Use ChatGPT to organize notes, surface open assumptions, draft a structured response, and preserve explicit human ownership of commitments.',ai:'Organize, challenge, draft',authority:'Account and delivery owners commit',governance:'Client data and claims remain bounded',measure:'Handoff speed, clarity, revision load',motion:'Live demo → paired use → review',verdict:'Scale after proof',heroVerdict:'Scale after proof',heroScenario:'Discovery-to-delivery brief',colors:['#3d9cff','#53d0dc','#42dfb3']},
-  support:{label:'SUPPORT',title:'Turn recurring issues into earlier, clearer response guidance.',narrative:'Synthesize approved knowledge, identify missing context, draft a response path, and escalate when confidence or consequence requires human judgment.',ai:'Retrieve, summarize, route',authority:'Support owner resolves or escalates',governance:'Approved knowledge; no unsupported diagnosis',measure:'Response time, recurrence, resolution quality',motion:'Case replay → coaching → adoption',verdict:'Standardize selectively',heroVerdict:'Standardize selectively',heroScenario:'Recurring-issue response guidance',colors:['#9a70ff','#57a5ff','#36d9c6']}
-};
-const fields={label:'scenarioLabel',title:'scenarioTitle',narrative:'scenarioNarrative',ai:'aiRole',authority:'authority',governance:'governance',measure:'measure',motion:'motion',verdict:'verdict'};
-const stage=document.getElementById('transformer');
-const canvas=document.getElementById('capabilityField');
-const announcement=document.getElementById('scenarioAnnouncement');
-const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
-const mobile=window.matchMedia('(max-width: 980px), (pointer: coarse) and (max-width: 1100px)');
-let scene=null;let selected='ops';let token=0;
-
-function hexToRgb(hex){const n=parseInt(hex.slice(1),16);return[(n>>16)/255,((n>>8)&255)/255,(n&255)/255]}
-function compile(gl,type,source){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s)||'Shader compile failed');return s}
-function makeProgram(gl,vs,fs){const p=gl.createProgram();gl.attachShader(p,compile(gl,gl.VERTEX_SHADER,vs));gl.attachShader(p,compile(gl,gl.FRAGMENT_SHADER,fs));gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p)||'Program link failed');return p}
-function perspective(out,fovy,aspect,near,far){const f=1/Math.tan(fovy/2);out.fill(0);out[0]=f/aspect;out[5]=f;out[10]=(far+near)/(near-far);out[11]=-1;out[14]=2*far*near/(near-far)}
-function lookAt(out,eye,center,up){let zx=eye[0]-center[0],zy=eye[1]-center[1],zz=eye[2]-center[2];let l=Math.hypot(zx,zy,zz)||1;zx/=l;zy/=l;zz/=l;let xx=up[1]*zz-up[2]*zy,xy=up[2]*zx-up[0]*zz,xz=up[0]*zy-up[1]*zx;l=Math.hypot(xx,xy,xz)||1;xx/=l;xy/=l;xz/=l;const yx=zy*xz-zz*xy,yy=zz*xx-zx*xz,yz=zx*xy-zy*xx;out[0]=xx;out[1]=yx;out[2]=zx;out[3]=0;out[4]=xy;out[5]=yy;out[6]=zy;out[7]=0;out[8]=xz;out[9]=yz;out[10]=zz;out[11]=0;out[12]=-(xx*eye[0]+xy*eye[1]+xz*eye[2]);out[13]=-(yx*eye[0]+yy*eye[1]+yz*eye[2]);out[14]=-(zx*eye[0]+zy*eye[1]+zz*eye[2]);out[15]=1}
-function seeded(i){const x=Math.sin(i*12.9898)*43758.5453;return x-Math.floor(x)}
-
-class FunnelScene{
-  constructor(target){
-    this.canvas=target;
-    this.gl=target.getContext('webgl2',{alpha:true,antialias:true,powerPreference:'high-performance',premultipliedAlpha:false});
-    if(!this.gl)throw new Error('WebGL2 unavailable');
-    this.palette=scenarios.ops.colors.map(hexToRgb);
-    this.projection=new Float32Array(16);this.view=new Float32Array(16);
-    lookAt(this.view,[0,.35,7.6],[0,-.13,0],[0,1,0]);
-    this.introStart=performance.now();this.intro=0;this.duration=3300;this.raf=0;this.running=false;this.visible=true;
-    this.init();
-    this.ro=new ResizeObserver(()=>this.resize());this.ro.observe(target.parentElement);
-    document.addEventListener('visibilitychange',()=>{this.visible=document.visibilityState==='visible';if(this.visible&&!this.running&&!reduced.matches)this.startLoop()});
-  }
-  init(){const gl=this.gl;
-    const shape=`float theta=aData.x;float v=aData.y;float breathe=.018*sin(uTime*.45+v*4.0);float r=.34+(2.30+breathe)*pow(v,.56);float twist=(1.0-v)*.18+.025*sin(v*3.14159);float a=theta+twist;float x=r*cos(a);float z=.58*r*sin(a);float y=mix(-1.50,1.36,v);`;
-    this.surface=makeProgram(gl,`#version 300 es
-      precision highp float;layout(location=0)in vec3 aData;uniform mat4 uP,uV;uniform float uTime,uIntro;out vec3 vNormal;out vec3 vView;out float vV;out float vSide;out float vA;
-      void main(){${shape}float open=.94+.06*smoothstep(0.0,.85,uIntro);x*=open;z*=open;float dr=1.288*pow(max(v,.002),-.44);vec3 tt=normalize(vec3(-r*sin(a),0.0,.58*r*cos(a)));vec3 tv=normalize(vec3(dr*cos(a)-r*sin(a)*(-.18),2.86,.58*(dr*sin(a)+r*cos(a)*(-.18))));vec3 normal=normalize(cross(tt,tv));vec4 vp=uV*vec4(x,y,z,1.0);gl_Position=uP*vp;vNormal=mat3(uV)*normal;vView=vp.xyz;vV=v;vSide=cos(a)*.5+.5;vA=a;}`,
-      `#version 300 es
-      precision highp float;in vec3 vNormal;in vec3 vView;in float vV,vSide,vA;uniform vec3 uA,uB,uC;uniform float uTime,uIntro;out vec4 outColor;
-      void main(){vec3 n=normalize(vNormal),eye=normalize(-vView);float fres=pow(1.0-max(0.0,dot(n,eye)),2.25);float top=smoothstep(.72,1.0,vV);float throat=1.0-smoothstep(.02,.38,vV);vec3 base=vSide<.5?mix(uA,uB,vSide*2.0):mix(uB,uC,(vSide-.5)*2.0);float sweep=.5+.5*sin(vA*2.0+vV*8.0-uTime*.32);float light=.15+.52*fres+.16*top+.12*throat+.045*sweep;float alpha=(.13+.24*fres+.07*top+.045*throat)*(.75+.25*uIntro);outColor=vec4(base*(.72+light*1.55),alpha);}`);
-    this.mesh=makeProgram(gl,`#version 300 es
-      precision highp float;layout(location=0)in vec3 aData;uniform mat4 uP,uV;uniform float uTime;out float vSide,vV;void main(){${shape}gl_Position=uP*uV*vec4(x,y,z,1.0);vSide=cos(a)*.5+.5;vV=v;}`,
-      `#version 300 es
-      precision highp float;in float vSide,vV;uniform vec3 uA,uB,uC;out vec4 outColor;void main(){vec3 c=vSide<.5?mix(uA,uB,vSide*2.0):mix(uB,uC,(vSide-.5)*2.0);outColor=vec4(c*1.5,.25+smoothstep(.78,1.0,vV)*.12);}`);
-    this.particles=makeProgram(gl,`#version 300 es
-      precision highp float;layout(location=0)in vec4 aData;uniform mat4 uP,uV;uniform float uTime,uIntro;uniform vec3 uA,uB,uC;out vec3 vColor;out float vAlpha;
-      float hash(float n){return fract(sin(n)*43758.5453123);}vec3 forward(float p,float lane,float seed){if(p<.23){float q=p/.23;return vec3(mix(-5.15,-2.05,q),mix(lane*.78,1.08+lane*.12,q)+sin(seed*90.0+uTime*.75)*.04,mix((hash(seed*41.0)-.5)*1.04,.1*lane,q));}if(p<.78){float q=(p-.23)/.55;float v=1.0-q*.97;float theta=3.14159+lane*.27+(seed-.5)*.25+q*6.55;float r=.34+2.30*pow(v,.56);float a=theta+(1.0-v)*.18;return vec3(r*cos(a),mix(1.36,-1.43,q),.58*r*sin(a));}float q=(p-.78)/.22;return vec3(mix(.12,5.15,q),mix(-1.43,lane*.77,q)+sin((q+seed)*17.0)*.02,mix(0.0,(hash(seed*127.0)-.5)*.14,q));}
-      vec3 learn(float p,float lane,float seed){float a=3.14159*p;return vec3(mix(4.9,-4.9,p),-1.82-.24*sin(a)+lane*.035,.42*cos(a));}
-      void main(){float seed=aData.x,lane=aData.y;bool returning=aData.z>.78;float speed=returning?.022:.036;float p=fract(seed+uTime*speed);vec3 pos=returning?learn(p,lane,seed):forward(p,lane,seed);vec4 vp=uV*vec4(pos,1.0);gl_Position=uP*vp;gl_PointSize=aData.w*(5.7/max(1.0,-vp.z));float c=returning?1.0:smoothstep(.18,.91,p);vec3 source=mix(uA,uB,lane*.5+.5);vColor=mix(source,uC,c);float gate=smoothstep(0.0,.22,uIntro);vAlpha=(.30+.58*hash(seed*213.0))*gate*(returning?.42:1.0);}`,
-      `#version 300 es
-      precision highp float;in vec3 vColor;in float vAlpha;out vec4 outColor;void main(){vec2 uv=gl_PointCoord-.5;float d=length(uv);if(d>.5)discard;float g=pow(smoothstep(.5,0.0,d),2.1);outColor=vec4(vColor*(1.18+g*.9),vAlpha*g);}`);
-    this.buildSurface();this.buildMesh();this.buildParticles();gl.enable(gl.BLEND);gl.enable(gl.DEPTH_TEST);this.resize();
-  }
-  buildSurface(){const gl=this.gl,R=64,S=144,v=[],idx=[];for(let j=0;j<=R;j++)for(let i=0;i<=S;i++)v.push(i/S*Math.PI*2,j/R,0);for(let j=0;j<R;j++)for(let i=0;i<S;i++){const a=j*(S+1)+i,b=a+1,c=(j+1)*(S+1)+i,d=c+1;idx.push(a,c,b,b,c,d)}this.surfaceBuffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,this.surfaceBuffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(v),gl.STATIC_DRAW);this.indexBuffer=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.indexBuffer);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,new Uint32Array(idx),gl.STATIC_DRAW);this.indexCount=idx.length}
-  buildMesh(){const gl=this.gl,data=[],draws=[];const add=arr=>{const start=data.length/3;data.push(...arr);draws.push([start,arr.length/3])};for(let j=2;j<=61;j+=6){const vv=j/64,a=[];for(let i=0;i<=144;i++)a.push(i/144*Math.PI*2,vv,0);add(a)}for(let i=0;i<26;i++){const theta=i/26*Math.PI*2,a=[];for(let j=0;j<=64;j++)a.push(theta,j/64,0);add(a)}this.meshBuffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,this.meshBuffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data),gl.STATIC_DRAW);this.meshDraws=draws}
-  buildParticles(){const gl=this.gl,count=2500,d=new Float32Array(count*4);for(let i=0;i<count;i++){const lane=(i%3)-1,seed=(i+seeded(i)*.82)/count,kind=i%9===0?.95:.15;d.set([seed,lane,kind,6+seeded(i+17)*10],i*4)}this.particleBuffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,this.particleBuffer);gl.bufferData(gl.ARRAY_BUFFER,d,gl.STATIC_DRAW);this.particleCount=count}
-  setPalette(colors){this.palette=colors.map(hexToRgb)}
-  resize(){const r=this.canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,1.75),w=Math.max(1,Math.round(r.width*dpr)),h=Math.max(1,Math.round(r.height*dpr));if(this.canvas.width!==w||this.canvas.height!==h){this.canvas.width=w;this.canvas.height=h;this.gl.viewport(0,0,w,h);perspective(this.projection,Math.PI/4.05,w/h,.1,40)}this.render(performance.now())}
-  uniforms(p,time){const gl=this.gl;gl.uniformMatrix4fv(gl.getUniformLocation(p,'uP'),false,this.projection);gl.uniformMatrix4fv(gl.getUniformLocation(p,'uV'),false,this.view);for(const [name,value] of [['uA',this.palette[0]],['uB',this.palette[1]],['uC',this.palette[2]]]){const loc=gl.getUniformLocation(p,name);if(loc!==null)gl.uniform3fv(loc,value)}for(const [name,value] of [['uTime',time],['uIntro',this.intro]]){const loc=gl.getUniformLocation(p,name);if(loc!==null)gl.uniform1f(loc,value)}}
-  replay(){this.introStart=performance.now();this.intro=reduced.matches?1:0;stage.classList.remove('settled');if(reduced.matches){this.stopLoop();this.render(this.introStart);stage.classList.add('settled')}else this.startLoop()}
-  startLoop(){if(this.running||reduced.matches||!this.visible)return;this.running=true;const tick=now=>{if(!this.running)return;const elapsed=Math.min(1,(now-this.introStart)/this.duration);this.intro=1-Math.pow(1-elapsed,3);if(elapsed>=1)stage.classList.add('settled');this.render(now);if(this.visible)this.raf=requestAnimationFrame(tick);else this.running=false};this.raf=requestAnimationFrame(tick)}
-  stopLoop(){this.running=false;cancelAnimationFrame(this.raf)}
-  destroy(){this.stopLoop();this.ro?.disconnect()}
-  render(now){const gl=this.gl,time=now*.001;gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.disable(gl.CULL_FACE);gl.enable(gl.DEPTH_TEST);gl.depthMask(true);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.useProgram(this.surface);this.uniforms(this.surface,time);gl.bindBuffer(gl.ARRAY_BUFFER,this.surfaceBuffer);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,3,gl.FLOAT,false,12,0);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,this.indexBuffer);gl.drawElements(gl.TRIANGLES,this.indexCount,gl.UNSIGNED_INT,0);gl.depthMask(false);gl.blendFunc(gl.SRC_ALPHA,gl.ONE);gl.useProgram(this.mesh);this.uniforms(this.mesh,time);gl.bindBuffer(gl.ARRAY_BUFFER,this.meshBuffer);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,3,gl.FLOAT,false,12,0);for(const [start,count] of this.meshDraws)gl.drawArrays(gl.LINE_STRIP,start,count);gl.useProgram(this.particles);this.uniforms(this.particles,time);gl.bindBuffer(gl.ARRAY_BUFFER,this.particleBuffer);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,4,gl.FLOAT,false,16,0);gl.drawArrays(gl.POINTS,0,this.particleCount)}
+function applyPalette(colors) {
+  stage.style.setProperty('--a', colors[0]);
+  stage.style.setProperty('--b', colors[1]);
+  stage.style.setProperty('--c', colors[2]);
 }
 
-function applyPalette(colors){stage.style.setProperty('--a',colors[0]);stage.style.setProperty('--b',colors[1]);stage.style.setProperty('--c',colors[2])}
-function ensureRenderer(){if(mobile.matches){scene?.destroy();scene=null;canvas.style.display='none';stage.classList.add('settled');return}canvas.style.display='block';if(scene)return;try{scene=new FunnelScene(canvas);scene.setPalette(scenarios[selected].colors);scene.replay()}catch(error){console.warn('WebGL2 renderer unavailable; using semantic composition.',error);scene=null;canvas.style.display='none';stage.classList.add('settled')}}
-function applyScenario(key,{announce=true,replay=true}={}){const s=scenarios[key];if(!s)return;selected=key;token+=1;Object.entries(fields).forEach(([property,id])=>{const el=document.getElementById(id);if(el)el.textContent=s[property]});document.getElementById('heroVerdict').textContent=s.heroVerdict;document.getElementById('heroScenario').textContent=s.heroScenario;document.getElementById('heroMeasure').textContent=s.measure;document.querySelectorAll('[data-scenario]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.scenario===key)));applyPalette(s.colors);if(scene){scene.setPalette(s.colors);if(replay)scene.replay();else scene.render(performance.now())}else stage.classList.add('settled');if(announce)announcement.textContent=`${s.label}: ${s.title}. Decision: ${s.verdict}.`}
-document.querySelectorAll('[data-scenario]').forEach(button=>button.addEventListener('click',()=>applyScenario(button.dataset.scenario)));
-document.getElementById('replay')?.addEventListener('click',()=>{const current=++token;scene?.replay();announcement.textContent=`Replaying ${scenarios[selected].label.toLowerCase()} transformation.`;setTimeout(()=>{if(current===token)announcement.textContent=`${scenarios[selected].heroVerdict}. Continuous learning flow remains active.`},reduced.matches?0:3400)});
-document.getElementById('resetScenario')?.addEventListener('click',()=>applyScenario('ops'));
-mobile.addEventListener?.('change',()=>{ensureRenderer();applyScenario(selected,{announce:false,replay:Boolean(scene)})});
-reduced.addEventListener?.('change',()=>{if(reduced.matches){scene?.stopLoop();if(scene){scene.intro=1;scene.render(performance.now())}stage.classList.add('settled')}else{ensureRenderer();scene?.replay()}});
-ensureRenderer();applyScenario('ops',{announce:false,replay:false});
+function ensureRenderer() {
+  if (mobile.matches) {
+    scene?.destroy();
+    scene = null;
+    canvas.style.display = 'none';
+    stage.classList.add('settled');
+    return;
+  }
+  canvas.style.display = 'block';
+  if (scene) return;
+  try {
+    scene = new FunnelScene(canvas);
+    scene.setPalette(scenarios[selected].colors);
+    scene.replay();
+  } catch (error) {
+    console.warn('WebGL2 renderer unavailable; using semantic composition.', error);
+    scene = null;
+    canvas.style.display = 'none';
+    stage.classList.add('settled');
+  }
+}
+
+function applyScenario(key, { announce = true, replay = true } = {}) {
+  const scenario = scenarios[key];
+  if (!scenario) return;
+  selected = key;
+  token += 1;
+  for (const [property, id] of Object.entries(fields)) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = scenario[property];
+  }
+  document.getElementById('heroVerdict').textContent = scenario.heroVerdict;
+  document.getElementById('heroScenario').textContent = scenario.heroScenario;
+  document.getElementById('heroMeasure').textContent = scenario.measure;
+  document.querySelectorAll('[data-scenario]').forEach((button) => {
+    button.setAttribute('aria-pressed', String(button.dataset.scenario === key));
+  });
+  applyPalette(scenario.colors);
+  if (scene) {
+    scene.setPalette(scenario.colors);
+    if (replay) scene.replay();
+    else scene.render(performance.now());
+  } else {
+    stage.classList.add('settled');
+  }
+  if (announce) announcement.textContent = `${scenario.label}: ${scenario.title}. Decision: ${scenario.verdict}.`;
+}
+
+document.querySelectorAll('[data-scenario]').forEach((button) => {
+  button.addEventListener('click', () => applyScenario(button.dataset.scenario));
+});
+
+document.getElementById('replay')?.addEventListener('click', () => {
+  const current = ++token;
+  scene?.replay();
+  announcement.textContent = `Replaying ${scenarios[selected].label.toLowerCase()} transformation.`;
+  setTimeout(() => {
+    if (current === token) {
+      announcement.textContent = `${scenarios[selected].heroVerdict}. Continuous learning flow remains active.`;
+    }
+  }, reduced.matches ? 0 : 3300);
+});
+
+document.getElementById('resetScenario')?.addEventListener('click', () => applyScenario('ops'));
+
+mobile.addEventListener?.('change', () => {
+  ensureRenderer();
+  applyScenario(selected, { announce: false, replay: Boolean(scene) });
+});
+
+reduced.addEventListener?.('change', () => {
+  if (reduced.matches) {
+    scene?.stopLoop();
+    if (scene) {
+      scene.intro = 1;
+      scene.render(performance.now());
+    }
+    stage.classList.add('settled');
+  } else {
+    ensureRenderer();
+    scene?.replay();
+  }
+});
+
+ensureRenderer();
+applyScenario('ops', { announce: false, replay: false });

@@ -6,7 +6,8 @@
   <title>VOLTO Consulting | ChatGPT Power User Enablement Analyst | Russell Dudek</title>
   <meta name="description" content="Independent candidate vision by Russell Dudek for the ChatGPT Power User Enablement Analyst role at VOLTO Consulting.">
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="experience.css">
+  <link rel="stylesheet" href="experience-core.css">
+  <link rel="stylesheet" href="experience-responsive.css">
 </head>
 <body class="experience-home">
 <a class="skip" href="#main">Skip to content</a>
@@ -25,7 +26,6 @@
   <section class="capability-hero" id="transformer" aria-labelledby="hero-title" aria-describedby="hero-description">
     <div class="hero-noise" aria-hidden="true"></div>
     <div class="ambient-grid" aria-hidden="true"></div>
-    <canvas id="capabilityField" aria-hidden="true"></canvas>
 
     <div class="hero-copy">
       <span class="eyebrow">CAPABILITY TRANSFORMER</span>
@@ -51,14 +51,18 @@
     </div>
 
     <div class="center-stage" aria-hidden="true">
-      <div class="funnel-rim"><span></span></div>
-      <div class="authority-orb"><span>HUMAN<br>AUTHORITY</span></div>
-      <div class="platform">
-        <span class="platform-ring ring-one"></span>
-        <span class="platform-ring ring-two"></span>
-        <span class="platform-ring ring-three"></span>
-        <span class="platform-core"></span>
+      <canvas id="capabilityField"></canvas>
+      <div class="semantic-funnel">
+        <div class="funnel-rim"><span></span></div>
+        <div class="funnel-shell"></div>
+        <div class="funnel-outlet"></div>
+        <div class="platform">
+          <span class="platform-ring ring-one"></span>
+          <span class="platform-ring ring-two"></span>
+          <span class="platform-ring ring-three"></span>
+        </div>
       </div>
+      <div class="authority-orb"><span>HUMAN<br>AUTHORITY</span></div>
       <div class="facet-rail"><span>FIT</span><i></i><span>SAFE</span><i></i><span>REPEATABLE</span></div>
     </div>
 
@@ -183,6 +187,10 @@
 </main>
 <footer class="footer"><div class="footer-inner"><span>Independent candidate work by Russell Dudek. Not affiliated with or endorsed by VOLTO Consulting.</span><span><a href="mailto:russelldudek@gmail.com">russelldudek@gmail.com</a> · <a href="https://www.linkedin.com/in/russelldudek">LinkedIn</a></span></div></footer>
 <div class="sr-only" aria-live="polite" id="scenarioAnnouncement"></div>
+<script src="app-data.js" defer></script>
+<script src="funnel-core.js" defer></script>
+<script src="funnel-geometry.js" defer></script>
+<script src="funnel-runtime.js" defer></script>
 <script src="app.js" defer></script>
 </body>
 </html>

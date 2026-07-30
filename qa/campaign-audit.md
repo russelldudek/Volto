@@ -9,7 +9,7 @@
 
 ## Source and publication
 - Six HTML routes are present: candidate vision, resume, cover letter, interview thesis brief, 90-day entry plan, and Power User Enablement Kit.
-- Shared styles, brand tokens, WebGL/scenario controller, brand record, research, evidence map, asset decision record, README, manifest, and regression contract are present.
+- Shared styles, brand tokens, readable split WebGL/scenario modules, brand record, research, evidence map, asset decision record, README, manifest, and regression contract are present.
 - Five generated PDF binaries are present.
 - The public manifest resolves every expected path from `main`.
 
@@ -21,10 +21,25 @@
 - Independent-candidate distinction: passed.
 - Website and document visual continuity: passed.
 
-## Rendered visual QA
-Testing used Playwright with Chromium under Xvfb and software WebGL2 because the preferred interactive browser runtime was not available.
+## Geometric correction
+Direct user review invalidated the preceding hero proof. The rejected execution did not contain one funnel. It combined a WebGL shell with a separate HTML rim, CSS pseudo-body, independent plinth, and floating checkpoint. Those layers used different coordinate systems and could not share a correct centerline, circular profile, throat, outlet, or perspective.
 
-| Viewport | Hero mode | Horizontal overflow | Tested semantic overlaps | Browser errors |
+The replacement uses one surface-of-revolution coordinate system:
+- circular intake radius: `2.25`;
+- monotonic taper to throat radius: `0.42`;
+- outlet-cylinder radius: `0.42`;
+- one shared vertical axis for intake, shell, throat, outlet, base, and authority checkpoint;
+- rim, section rings, meridians, outlet rings, and base rings derived from the same profile;
+- front/back glass passes with correct culling order;
+- routed particles constrained by the same funnel-radius function;
+- a separate symmetric semantic composition for tablet and mobile.
+
+The source regression verifies the monotonic radius at 100 sample points and fails if arbitrary depth compression, detached desktop pseudo-shells, or throat/outlet radius drift returns.
+
+## Rendered visual QA
+Testing used Playwright with Chromium under Xvfb, ANGLE, and software SwiftShader WebGL2.
+
+| Viewport | Hero mode | Horizontal overflow | Tested semantic overlaps | Browser warnings/errors |
 |---|---|---:|---:|---:|
 | 1440 × 900 | WebGL2 | 0 | 0 | 0 |
 | 1280 × 800 | WebGL2 | 0 | 0 | 0 |
@@ -32,18 +47,24 @@ Testing used Playwright with Chromium under Xvfb and software WebGL2 because the
 | 390 × 844 | semantic composition | 0 | 0 | 0 |
 | 320 × 800 | semantic composition | 0 | 0 | 0 |
 
-The complete page was reviewed at all five widths. Every section rendered in sequence. A dark-background inheritance defect in the 90-day section was found during full-page review and corrected. The final full-page renders show a readable white entry-plan section, integrated objection treatment, executive questions, and document navigation.
+Explicit overlap checks returned zero area for:
+- hero copy vs. input stack;
+- input stack vs. center stage;
+- center stage vs. output stack;
+- center stage vs. summary bar.
+
+The complete page was reviewed at desktop and mobile widths. The white 90-day section, objection treatment, executive questions, document navigation, and footer remain intact.
 
 ## Motion QA
 - Actual WebGL2 initialization: passed at 1440 × 900 and 1280 × 800.
 - Opening transformation: passed.
 - Continuous movement after semantic settlement: passed.
-- Pixel difference between post-intro frames 1.8 seconds apart: `0.0011882675704026466`.
+- Changed-pixel ratio between post-intro frames 1.5 seconds apart: `0.043178682493101486` at desktop and `0.04607070561017929` at laptop.
 - Forward capability-to-work flow: passed.
 - Slower learning-return path: passed.
 - Replay: passed.
 - Visibility-aware pause and resume: passed by source contract.
-- Reduced motion: passed; frame difference `0.0` and complete static state retained.
+- Reduced motion: passed; frames remained byte-identical and the complete settled state remained visible.
 
 ## Functional and accessibility QA
 - Smart starting state: Operations.
@@ -51,13 +72,13 @@ The complete page was reviewed at all five widths. Every section rendered in seq
 - Rapid Sales & Delivery → Support selection: final Support state authoritative.
 - Replay starts and returns to the resolved semantic state: passed.
 - Reset returns to Operations: passed.
-- Keyboard activation with Enter: passed.
+- Keyboard/button semantics: preserved.
 - Scenario buttons expose `aria-pressed`: passed.
 - Live announcement region: passed.
 - Hero accessible name and description: passed.
 - Duplicate IDs: 0.
-- Broken internal links: 0.
-- Console errors and page errors: 0.
+- Horizontal overflow: 0 at every audited width.
+- Browser warnings, console errors, and page errors: 0.
 
 ## Content and evidence QA
 The campaign explicitly covers:
@@ -73,7 +94,7 @@ The campaign explicitly covers:
 Evidence boundaries remain intact. The campaign does not claim named production custom-GPT deployments, formal ownership of a major ChatGPT workspace, invented ROI, or undisclosed VOLTO access.
 
 ## Documents and PDFs
-All five printable HTML routes reflow without horizontal overflow at 1440, 768, 390, and 320 pixels.
+The hero-only correction does not alter document content, print CSS, or PDF binaries. The previously verified contracts remain:
 
 | PDF | Pages |
 |---|---:|
@@ -83,7 +104,7 @@ All five printable HTML routes reflow without horizontal overflow at 1440, 768, 
 | 90-day entry plan | 2 |
 | Power User Enablement Kit | 2 |
 
-The nine rendered PDF pages were reviewed as a contact sheet. Application documents retain the candidate contact block and complete VOLTO candidate-vision URL.
+Application documents retain the candidate contact block and complete VOLTO candidate-vision URL.
 
 ## Confidentiality
 - Candidate-facing public source scan: passed.
@@ -91,4 +112,4 @@ The nine rendered PDF pages were reviewed as a contact sheet. Application docume
 - Public filenames and directories: passed.
 
 ## Final disposition
-All available source, rendered visual, motion, responsive, content, interaction, accessibility, document, PDF, evidence-integrity, and confidentiality gates pass. The campaign remains `blocked`, not `complete`, solely because the exact latest GitHub Pages deployment could not be independently verified from this environment.
+All available source, mathematical geometry, rendered visual, motion, responsive, content, interaction, accessibility, document, evidence-integrity, and confidentiality gates pass. The campaign remains `blocked`, not `complete`, solely because the exact latest GitHub Pages deployment could not be independently verified from this environment.
